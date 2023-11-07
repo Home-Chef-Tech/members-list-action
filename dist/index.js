@@ -24295,10 +24295,10 @@ $49927b3bff0de6e7$exports.getOctokit = $49927b3bff0de6e7$var$getOctokit;
 
 
 var $cfe2708a68ed96d2$var$octokit;
-const $cfe2708a68ed96d2$var$orgName = $7a823ca9c5151df2$exports.getInput("org-name");
-const $cfe2708a68ed96d2$var$teamName = $7a823ca9c5151df2$exports.getInput("team-name") || null;
+const $cfe2708a68ed96d2$var$orgName = (0, $7a823ca9c5151df2$exports.getInput)("org-name");
+const $cfe2708a68ed96d2$var$teamName = (0, $7a823ca9c5151df2$exports.getInput)("team-name") || null;
 const $cfe2708a68ed96d2$var$authToken = process.env.GITHUB_TOKEN;
-const $cfe2708a68ed96d2$var$limit = parseInt($7a823ca9c5151df2$exports.getInput("user-limit"));
+const $cfe2708a68ed96d2$var$limit = parseInt((0, $7a823ca9c5151df2$exports.getInput)("user-limit"));
 // For Testing Locally
 /*
 const fs = require('fs');
@@ -24320,7 +24320,7 @@ const repoName = test_data['repo'];
         "org": $cfe2708a68ed96d2$var$orgName,
         "team_slug": team
     }).catch((err)=>{
-        $7a823ca9c5151df2$exports.error(err);
+        (0, $7a823ca9c5151df2$exports.error)(err);
         process.exit(1);
     });
     return resp.data;
@@ -24328,13 +24328,13 @@ const repoName = test_data['repo'];
 async function $cfe2708a68ed96d2$var$run() {
     try {
         if (!$cfe2708a68ed96d2$var$authToken) throw new Error("Token not found");
-        $cfe2708a68ed96d2$var$octokit = $49927b3bff0de6e7$exports.getOctokit($cfe2708a68ed96d2$var$authToken);
+        $cfe2708a68ed96d2$var$octokit = (0, $49927b3bff0de6e7$exports.getOctokit)($cfe2708a68ed96d2$var$authToken);
         let allUsers = [];
         allUsers = await $cfe2708a68ed96d2$var$getMemberData($cfe2708a68ed96d2$var$teamName).sort(()=>0.5 - Math.random());
         let selectedUsers = allUsers.slice(0, $cfe2708a68ed96d2$var$limit);
-        $7a823ca9c5151df2$exports.setOutput("users", selectedUsers.join(","));
+        (0, $7a823ca9c5151df2$exports.setOutput)("users", selectedUsers.join(","));
     } catch (error) {
-        $7a823ca9c5151df2$exports.setFailed(error.message);
+        (0, $7a823ca9c5151df2$exports.setFailed)(error.message);
     }
 }
 $cfe2708a68ed96d2$var$run();

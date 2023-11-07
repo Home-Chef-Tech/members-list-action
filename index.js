@@ -1,13 +1,13 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+import { getInput, error as _error, setOutput, setFailed } from '@actions/core';
+import { getOctokit } from '@actions/github';
 
 var octokit;
 
 
-const orgName = core.getInput('org-name');
-const teamName = core.getInput('team-name') || null;
+const orgName = getInput('org-name');
+const teamName = getInput('team-name') || null;
 const authToken = process.env.GITHUB_TOKEN;
-const limit = parseInt(core.getInput('user-limit'));
+const limit = parseInt(getInput('user-limit'));
 
 // For Testing Locally
 /*
@@ -34,7 +34,7 @@ async function getMemberData(team){
         'team_slug': team,
     }).catch(
         err => {
-            core.error(err);
+            _error(err);
             process.exit(1);
         }
     );
@@ -47,7 +47,7 @@ async function run(){
             throw new Error('Token not found');
         }
 
-        octokit = github.getOctokit(authToken);
+        octokit = getOctokit(authToken);
 
         let allUsers = [];
 
@@ -55,10 +55,10 @@ async function run(){
 
         let selectedUsers = allUsers.slice(0, limit);
 
-        core.setOutput('users', selectedUsers.join(','));
+        setOutput('users', selectedUsers.join(','));
     }
     catch (error) {
-        core.setFailed(error.message);
+        setFailed(error.message);
     }
 }
 
