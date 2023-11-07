@@ -30,7 +30,7 @@ const repoName = test_data['repo'];
 async function getMemberData(team){
     octokit = getOctokit(authToken);
 
-    let resp = await octokit.teams.listMembersInOrg({
+    let resp = await octokit.rest.teams.listMembersInOrg({
         'org': orgName,
         'team_slug': team,
     }).catch(
