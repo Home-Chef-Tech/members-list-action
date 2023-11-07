@@ -1,6 +1,6 @@
 name: 'List Members'
 description: "GitHub Action to randomly select a number of an organization's members use in other actions. Forked from github.com/RITct/members-list-action"
-author: RITct, thatsanicehat
+author: thatsanicehat
 
 inputs:
   org-name:  # id of input
