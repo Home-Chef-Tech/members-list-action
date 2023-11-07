@@ -3,7 +3,6 @@ import { getOctokit } from '@actions/github';
 
 var octokit;
 
-
 const orgName = getInput('org-name');
 const teamName = getInput('team-name') || null;
 const authToken = process.env.GITHUB_TOKEN;
@@ -29,6 +28,8 @@ const repoName = test_data['repo'];
 
 
 async function getMemberData(team){
+    octokit = getOctokit(authToken);
+
     let resp = await octokit.teams.listMembersInOrg({
         'org': orgName,
         'team_slug': team,
@@ -47,13 +48,13 @@ async function run(){
             throw new Error('Token not found');
         }
 
-        octokit = getOctokit(authToken);
-
         let allUsers = [];
 
-        allUsers = await getMemberData(teamName).sort(() => 0.5 - Math.random());
+        allUsers = await getMemberData(teamName)
 
-        let selectedUsers = allUsers.slice(0, limit);
+        console.log(allUsers);
+
+        let selectedUsers = allUsers.sort(() => 0.5 - Math.random()).slice(0, limit);
 
         setOutput('users', selectedUsers.join(','));
     }
