@@ -30209,7 +30209,6 @@ __nccwpck_require__.r(__webpack_exports__);
 
 var octokit;
 
-
 const orgName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('org-name');
 const teamName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('team-name') || null;
 const authToken = process.env.GITHUB_TOKEN;
@@ -30235,6 +30234,8 @@ const repoName = test_data['repo'];
 
 
 async function getMemberData(team){
+    octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(authToken);
+
     let resp = await octokit.teams.listMembersInOrg({
         'org': orgName,
         'team_slug': team,
@@ -30253,13 +30254,13 @@ async function run(){
             throw new Error('Token not found');
         }
 
-        octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(authToken);
-
         let allUsers = [];
 
-        allUsers = await getMemberData(teamName).sort(() => 0.5 - Math.random());
+        allUsers = await getMemberData(teamName);
 
-        let selectedUsers = allUsers.slice(0, limit);
+        console.log(allUsers);
+
+        let selectedUsers = allUsers.sort(() => 0.5 - Math.random()).slice(0, limit);
 
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)('users', selectedUsers.join(','));
     }
