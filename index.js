@@ -7,7 +7,7 @@ var octokit;
 const orgName = core.getInput('org-name');
 const teamName = core.getInput('team-name') || null;
 const authToken = process.env.GITHUB_TOKEN;
-const limit = core.getInput('user-limit');
+const limit = parseInt(core.getInput('user-limit'));
 
 // For Testing Locally
 /*

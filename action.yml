@@ -6,17 +6,18 @@ inputs:
   org-name:  # id of input
     description: 'Organization Name'
     required: true
-  role-name:
-    description: 'Name of role'
+  team-name:
+    description: 'Name of team'
     required: true
   user-limit:
     description: 'How many users to select at random'
-    required: true
+    required: false
+    default: '2'
 outputs:
   users:
     description: "Comma-separated list of users"
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
 branding:
   icon: 'user'

@@ -12,45 +12,39 @@ on:
   workflow_dispatch:
 jobs:
   runs-on: ubuntu-latest
-  name: Action to update the member's list
+  name: Action to fetch 2 random users
   steps:
     - name: Member List
       id: list-members
-      uses: RITct/members-list-action@main
+      uses: homechef/members-list-action@main
       with:
-        org-name: <organization-name>
-        file-path: 'members.json'
+        org-name: Your-Org-Name
+        team-name: devs
+        user-limit: 2 # optional : default 2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Use the comma-separated list
+        uses: some/other-action@main
+        users: ${{steps.user-list.outputs.users}}
 ```
 
-To add it to your to your existing workflow, append this to your current `.yml` workflow script.
-
-```YAML
--uses: RITct/members-list-action@main
- with:
-   org-name: <organization-name>
-   file-path: 'members.json'
-   env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
 Don't forget to change the organization name.
 
 ## Parameters
 
 <center>
-  
-OPTION            | DEFAULT VALUE          | DESCRIPTION        | REQUIRED 
------------------ | ---------------------- | ------------------ | -------------
-org-name          |                        | Organization Name  | true
-file-path         | members.json           | JSON file path     | false
-commit-user-name  | list-member-action     | Commit Username    | false
-commit-user-email | listaction@noreply.com | Commit Email       | false
-commit-msg        | changed members file   | Commit Message     | false
-  
+
+OPTION            | DEFAULT | DESCRIPTION             | REQUIRED
+----------------- | ------- | ----------------------- | -------------
+org-name          |         | Organization Name       | true
+team-name         |         | Team Name to pull from  | true
+user-limit        | 2       | Max users to select     | false
+
 </center>
 
 ## License
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE] file for details.
 
-[LICENSE]: https://github.com/RITct/members-list-action/blob/main/LICENSE
+[LICENSE]: https://github.com/homechef/members-list-action/blob/main/LICENSE
+
+Forked from https://github.com/RITct/members-list-action
