@@ -50,7 +50,7 @@ async function run(){
 
         let allUsers = [];
 
-        allUsers = await getMemberData(teamName)
+        allUsers = await getMemberData(teamName);
 
         console.log(allUsers);
 
