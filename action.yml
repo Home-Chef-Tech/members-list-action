@@ -6,6 +6,9 @@ inputs:
   org-name:  # id of input
     description: 'Organization Name'
     required: true
+  auth-token:
+    description: 'An auth token with "read:org" permissions'
+    required: true
   team-name:
     description: 'Name of team'
     required: true

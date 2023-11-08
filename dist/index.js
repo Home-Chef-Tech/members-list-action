@@ -30210,37 +30210,20 @@ __nccwpck_require__.r(__webpack_exports__);
 var octokit;
 
 const orgName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('org-name');
-const teamName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('team-name') || null;
-const authToken = process.env.GITHUB_TOKEN;
+const teamName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('team-name');
+const authToken = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('auth-token');
 const limit = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('user-limit'));
 
-// For Testing Locally
-/*
-const fs = require('fs');
-function get_test_values(){
-    return JSON.parse(fs.readFileSync('test_data.json', { encoding: 'utf8' }));
-}
-var test_data = get_test_values();
-const orgName = test_data['org_name'];
-const orgName = test_data['team_name'];
-const authToken = test_data['token'];
-const path = test_data['path'];
-const name = test_data['name'];
-const email = test_data['email'];
-const message = test_data['message']
-const repoOwner = orgName;
-const repoName = test_data['repo'];
-*/
-
+// Uncomment the below, npm run build, then node dist/index.js to test locally
+// const orgName = 'your org name';
+// const teamName = 'your team name';
+// const authToken = 'your token';
+// const limit = 2;
 
 async function getMemberData(team){
     octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(authToken);
-    console.log(octokit);
-    let octo = octokit.rest;
-    console.log(octo)
-    let teams = octo.teams;
-    console.log(teams);
-    let resp = await teams.listMembersInOrg({
+
+    let resp = await octokit.rest.teams.listMembersInOrg({
         'org': orgName,
         'team_slug': team,
     }).catch(
@@ -30266,7 +30249,7 @@ async function run(){
 
         let selectedUsers = allUsers.sort(() => 0.5 - Math.random()).slice(0, limit);
 
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)('users', selectedUsers.join(','));
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)('users', selectedUsers.map((user) => user.login).join(','));
     }
     catch (error) {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);

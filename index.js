@@ -4,37 +4,20 @@ import { getOctokit } from '@actions/github';
 var octokit;
 
 const orgName = getInput('org-name');
-const teamName = getInput('team-name') || null;
-const authToken = process.env.GITHUB_TOKEN;
+const teamName = getInput('team-name');
+const authToken = getInput('auth-token');
 const limit = parseInt(getInput('user-limit'));
 
-// For Testing Locally
-/*
-const fs = require('fs');
-function get_test_values(){
-    return JSON.parse(fs.readFileSync('test_data.json', { encoding: 'utf8' }));
-}
-var test_data = get_test_values();
-const orgName = test_data['org_name'];
-const orgName = test_data['team_name'];
-const authToken = test_data['token'];
-const path = test_data['path'];
-const name = test_data['name'];
-const email = test_data['email'];
-const message = test_data['message']
-const repoOwner = orgName;
-const repoName = test_data['repo'];
-*/
-
+// Uncomment the below, npm run build, then node dist/index.js to test locally
+// const orgName = 'your org name';
+// const teamName = 'your team name';
+// const authToken = 'your token';
+// const limit = 2;
 
 async function getMemberData(team){
     octokit = getOctokit(authToken);
-    console.log(octokit);
-    let octo = octokit.rest;
-    console.log(octo)
-    let teams = octo.teams;
-    console.log(teams);
-    let resp = await teams.listMembersInOrg({
+
+    let resp = await octokit.rest.teams.listMembersInOrg({
         'org': orgName,
         'team_slug': team,
     }).catch(
@@ -60,7 +43,7 @@ async function run(){
 
         let selectedUsers = allUsers.sort(() => 0.5 - Math.random()).slice(0, limit);
 
-        setOutput('users', selectedUsers.join(','));
+        setOutput('users', selectedUsers.map((user) => user.login).join(','));
     }
     catch (error) {
         setFailed(error.message);
