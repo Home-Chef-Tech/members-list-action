@@ -63,4 +63,4 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE
 
 [LICENSE]: https://github.com/homechef/members-list-action/blob/main/LICENSE
 
-Forked from https://github.com/RITct/members-list-action
+Original idea from: https://github.com/RITct/members-list-action
