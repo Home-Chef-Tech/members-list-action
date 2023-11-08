@@ -1,56 +1,66 @@
 # Members-List-Actions
 
-The members-list-actions is a GitHub Action that generates a list of all the members in an organization.
-Adding this action to your organization will generate a JSON file that updates itself each time a new member is added to the organization.
+The members-list-actions is a GitHub Action that generates a list of a limited number of random users in an organization's team
+Adding this action will allow you to randomly choose a number of users and then use the output in another action
 
 ## Getting Started
 
-Create a `main.yml` file inside `.github/workflows/` and add the following.
+Example usage:
 
 ```YAML
-on:
-  workflow_dispatch:
 jobs:
   runs-on: ubuntu-latest
-  name: Action to update the member's list
+  name: Action to fetch 2 random users
   steps:
     - name: Member List
       id: list-members
-      uses: RITct/members-list-action@main
+      uses: homechef/members-list-action@main
       with:
-        org-name: <organization-name>
-        file-path: 'members.json'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        org-name: Your-Org-Name
+        team-name: devs
+        user-limit: 2 # optional : default 2
+        auth-token: ${{secrets.YOUR_AUTH_TOKEN}}
+    - name: Use the comma-separated list
+        uses: some/other-action@main
+        users: ${{steps.user-list.outputs.users}}
 ```
-
-To add it to your to your existing workflow, append this to your current `.yml` workflow script.
-
-```YAML
--uses: RITct/members-list-action@main
- with:
-   org-name: <organization-name>
-   file-path: 'members.json'
-   env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-Don't forget to change the organization name.
 
 ## Parameters
 
 <center>
-  
-OPTION            | DEFAULT VALUE          | DESCRIPTION        | REQUIRED 
------------------ | ---------------------- | ------------------ | -------------
-org-name          |                        | Organization Name  | true
-file-path         | members.json           | JSON file path     | false
-commit-user-name  | list-member-action     | Commit Username    | false
-commit-user-email | listaction@noreply.com | Commit Email       | false
-commit-msg        | changed members file   | Commit Message     | false
-  
+
+OPTION            | DEFAULT | DESCRIPTION                          | REQUIRED
+----------------- | ------- | ------------------------------------ | ----------
+org-name          |         | Organization Name                    | true
+team-name         |         | Team Name to pull from               | true
+auth-token        |         | Max users to select                  | true
+user-limit        | 2       | auth token with read:org permissions | false
+
 </center>
+
+## Development Setup
+
+```
+nvm install 20
+nvm use 20
+npm i -g @vercel/ncc
+```
+
+Before committing, make sure to build your action to see changes
+
+```
+npm run build
+```
+
+The action will fail on linting errors. Check before committing with:
+```
+npm run test
+```
+
 
 ## License
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE] file for details.
 
-[LICENSE]: https://github.com/RITct/members-list-action/blob/main/LICENSE
+[LICENSE]: https://github.com/homechef/members-list-action/blob/main/LICENSE
+
+Original idea from: https://github.com/RITct/members-list-action
