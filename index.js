@@ -39,8 +39,6 @@ async function run(){
 
         allUsers = await getMemberData(teamName);
 
-        console.log(allUsers);
-
         let selectedUsers = allUsers.sort(() => 0.5 - Math.random()).slice(0, limit);
 
         setOutput('users', selectedUsers.map((user) => user.login).join(','));

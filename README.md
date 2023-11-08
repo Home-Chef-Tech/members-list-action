@@ -43,6 +43,7 @@ user-limit        | 2       | auth token with read:org permissions | false
 ```
 nvm install 20
 nvm use 20
+npm i -g @vercel/ncc
 ```
 
 Before committing, make sure to build your action to see changes
